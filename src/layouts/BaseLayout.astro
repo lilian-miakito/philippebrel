@@ -71,6 +71,11 @@ const fullTitle = title === "Accueil" ? "Atelier Philippe Brel" : `${title} | At
             });
           }
         });
+        
+        // Ouvrir le widget si un token d'invitation est présent
+        if (window.location.hash.includes('_token=')) {
+           window.netlifyIdentity.open();
+        }
       }
     </script>
   </body>
