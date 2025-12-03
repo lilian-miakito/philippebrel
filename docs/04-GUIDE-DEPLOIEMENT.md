@@ -1,100 +1,84 @@
-# 🚀 Guide de Déploiement & Comprendre l'Architecture "Git-based"
+# 🚀 Guide de Déploiement & Accès Client
 
-Ce document explique comment mettre en ligne le site de Philippe Brel et comment fonctionne cette architecture particulière (Astro + Decap CMS).
-
----
-
-## 💡 Le Concept : "Tout est dans Git"
-
-Contrairement à un CMS classique (WordPress, Drupal) qui a besoin :
-- D'un serveur PHP/Node.js qui tourne 24h/24
-- D'une base de données (MySQL, PostgreSQL)
-
-Ici, nous utilisons une architecture **JAMstack** avec un **Git-based CMS**.
-
-### Comment ça marche ?
-
-1.  **Stockage** : Tout le contenu (textes, infos des œuvres) est stocké dans des fichiers **Markdown** (`.md`) directement dans le dossier `src/content/`. Les images sont dans `public/images/`.
-2.  **Base de données** : Il n'y en a pas ! C'est votre dépôt Git (GitHub) qui fait office de base de données.
-3.  **L'Admin (Decap CMS)** : C'est une simple application React (`admin/index.html`) qui se connecte à l'API de GitHub. Quand Philippe ajoute une œuvre, le CMS fait un **commit** dans le dépôt Git.
-4.  **Déploiement** : À chaque nouveau commit (manuel ou via le CMS), l'hébergeur (Netlify) détecte le changement, **reconstruit** tout le site en HTML statique et le publie.
-
-### Avantages pour Philippe
-- **Coût** : 0€ (pas de serveur, pas de DB).
-- **Sécurité** : Impossible à pirater (ce sont juste des fichiers HTML).
-- **Vitesse** : Extrêmement rapide.
-- **Backup** : L'historique Git sert de sauvegarde complète.
+Ce document explique comment mettre en ligne le site et donner accès à Philippe.
 
 ---
 
-## 🌍 Mise en ligne sur Netlify (Recommandé)
+## 🌍 1. Mise en ligne sur Netlify
 
-C'est la méthode la plus simple car Netlify a créé ce CMS et gère tout nativement.
+### A. Création du projet
+1.  Pousser le code sur GitHub (déjà fait).
+2.  Aller sur [Netlify](https://app.netlify.com/).
+3.  **"Add new site"** > **"Import an existing project"** > **GitHub**.
+4.  Sélectionner le dépôt `philippebrel`.
+5.  Netlify détecte le `netlify.toml` et configure tout seul (`npm run build` / `dist`).
+6.  **"Deploy site"**.
 
-### 1. Pousser le code sur GitHub
-Si ce n'est pas déjà fait, créez un dépôt privé ou public sur GitHub et poussez le code :
+### B. Configuration de l'Authentification (CRITIQUE)
+C'est ici que ça se joue pour que Philippe puisse se connecter.
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/VOTRE_USER/philippebrel.git
-git push -u origin main
-```
-
-### 2. Connecter à Netlify
-1.  Allez sur [Netlify](https://app.netlify.com/).
-2.  Cliquez sur **"Add new site"** > **"Import an existing project"**.
-3.  Choisissez **GitHub**.
-4.  Sélectionnez le dépôt `philippebrel`.
-5.  Netlify va détecter Astro automatiquement :
-    - **Build command** : `npm run build`
-    - **Publish directory** : `dist`
-6.  Cliquez sur **"Deploy site"**.
-
-### 3. Activer l'Authentification (Identity)
-C'est ce qui permet à Philippe de se connecter à l'admin.
-
-1.  Dans le tableau de bord Netlify de votre site, allez dans **"Site configuration"** > **"Identity"**.
+1.  Aller dans **Site Settings** > **Identity**.
 2.  Cliquez sur **"Enable Identity"**.
-3.  Dans **"Registration preferences"**, mettez "Invite only" (pour éviter que n'importe qui s'inscrive).
-4.  Dans **"Services"** > **"Git Gateway"**, cliquez sur **"Enable Git Gateway"** (cela lie l'auth Netlify à votre repo GitHub).
-
-### 4. Créer le compte admin
-1.  Toujours dans l'onglet **Identity**, cliquez sur **"Invite users"**.
-2.  Entrez l'email de Philippe (ou le vôtre pour tester).
-3.  Vous recevrez un mail pour définir le mot de passe.
-
-### 5. C'est fini !
-Le site est en ligne.
-- **Site public** : `https://votre-site.netlify.app`
-- **Admin** : `https://votre-site.netlify.app/admin/`
+3.  **Registration preferences** : Mettre sur **"Invite only"** (Important ! Sinon tout le monde peut s'inscrire).
+4.  **External providers** : 
+    - Si vous voulez faire simple : Activez juste **"Email/Password"** (c'est le défaut).
+    - Si vous utilisez Auth0 : Configurez-le ici, mais assurez-vous que `git-gateway` est supporté.
+5.  **Services** > **Git Gateway** :
+    - Cliquez sur **"Enable Git Gateway"**.
+    - Cela va vous demander de vous connecter à GitHub pour donner la permission à Netlify de modifier le dépôt. **C'est obligatoire pour que le CMS puisse enregistrer les modifications.**
 
 ---
 
-## 🔧 Maintenance & Évolutions
+## 👤 2. Donner l'accès à Philippe (Invitation)
 
-### Si vous (le dev) voulez modifier le code
-Vous travaillez en local, vous faites vos modifs (CSS, layouts...), vous poussez sur Git.
-👉 Netlify détecte le push et met à jour le site.
+### Méthode Standard (Email/Mot de passe)
+C'est la méthode recommandée pour Decap CMS.
 
-### Si Philippe modifie le contenu
-Il va sur l'admin, modifie une œuvre, clique sur "Publish".
-👉 Decap CMS fait un commit sur Git.
-👉 Netlify détecte le commit et met à jour le site.
+1.  Dans Netlify, aller dans l'onglet **"Identity"** (en haut).
+2.  Cliquez sur **"Invite users"**.
+3.  Entrez l'email de Philippe : `brelphilippe@gmail.com`.
+4.  Envoyez l'invitation.
 
-Les deux flux se rejoignent parfaitement !
+**Ce que Philippe va recevoir :**
+1.  Un email avec un lien "Accept the invite".
+2.  En cliquant, il arrivera sur le site.
+3.  Il devra définir son mot de passe.
+4.  Ensuite, il pourra aller sur `/admin/` et se connecter.
+
+### Si vous utilisez Auth0
+Si vous avez désactivé "Email/Password" pour Auth0 :
+1.  Créez l'utilisateur dans votre dashboard **Auth0**.
+2.  Assurez-vous que l'intégration Auth0 dans Netlify Identity est active.
+3.  Philippe cliquera sur "Log in with Auth0" sur la page d'admin.
 
 ---
 
-## 🆘 En cas de problème
+## 🛠️ 3. Guide Rapide pour Philippe (à lui envoyer)
 
-**Les images ne s'affichent pas dans l'admin ?**
-Vérifiez que `config.yml` pointe bien vers `public/images` (notre configuration actuelle est correcte).
+**URL d'administration :** `https://philippebrel.fr/admin/` (ou l'URL Netlify temporaire)
 
-**L'admin demande une URL Git Gateway ?**
-C'est que vous n'avez pas activé "Git Gateway" dans les paramètres Netlify (étape 3.4).
+**Procédure :**
+1.  Clique sur le lien d'invitation reçu par email.
+2.  Crée ton mot de passe.
+3.  Va sur la page `/admin/`.
+4.  Connecte-toi.
 
-**Le site ne se met pas à jour ?**
-Regardez les logs de déploiement dans Netlify ("Deploys"). Si le build échoue, l'erreur sera indiquée (souvent une erreur de syntaxe dans un fichier .md ou .astro).
+**Ajouter une œuvre :**
+1.  Colonne de gauche : "Œuvres".
+2.  Bouton vert "New Œuvre".
+3.  Remplis le formulaire (Titre, Image, Prix...).
+4.  Clique sur **"Publish"** (en haut) > **"Publish now"**.
+5.  Attends 1 minute, le site se met à jour tout seul !
 
+**Modifier une œuvre :**
+1.  Clique sur l'œuvre dans la liste.
+2.  Fais tes modifs.
+3.  Clique sur "Publish".
+
+---
+
+## ⚠️ Dépannage
+
+- **Erreur "Git Gateway Error"** : Vous n'avez pas activé Git Gateway dans *Settings > Identity > Services*.
+- **Page blanche sur /admin/** : Vérifiez que vous êtes bien sur `/admin/` (avec le slash) et que le déploiement est fini.
+- **Images ne s'affichent pas dans l'admin** : C'est normal si elles ont été uploadées manuellement avant. Les nouvelles images ajoutées via le CMS s'afficheront correctement.

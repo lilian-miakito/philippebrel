@@ -48,7 +48,7 @@ const fullTitle = title === "Accueil" ? "Atelier Philippe Brel" : `${title} | At
     
     <title>{fullTitle}</title>
     
-    <!-- Decap CMS Identity Widget (pour l'auth) -->
+    <!-- Decap CMS Identity Widget (pour l'auth et les invitations) -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   
@@ -61,7 +61,7 @@ const fullTitle = title === "Accueil" ? "Atelier Philippe Brel" : `${title} | At
     
     <Footer />
     
-    <!-- Redirect après login Netlify Identity -->
+    <!-- Gestion de la redirection après login/invitation -->
     <script is:inline>
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
