@@ -63,20 +63,52 @@ const fullTitle = title === "Accueil" ? "Atelier Philippe Brel" : `${title} | At
     
     <!-- Gestion de la redirection après login/invitation -->
     <script is:inline>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+      (function() {
+        function initNetlifyIdentity() {
+          console.log("Vérification de Netlify Identity...");
+          if (window.netlifyIdentity) {
+            console.log("Netlify Identity trouvé !");
+            
+            // Écouter l'initialisation
+            window.netlifyIdentity.on("init", user => {
+              console.log("Event: init", user);
+              if (!user) {
+                // Si pas d'utilisateur, on écoute le login pour rediriger
+                window.netlifyIdentity.on("login", () => {
+                  console.log("Event: login");
+                  document.location.href = "/admin/";
+                });
+              } else {
+                console.log("Utilisateur déjà connecté");
+              }
             });
+
+            // Gérer l'initialisation manuelle si nécessaire (pour les SPA/Astro)
+            // Cela permet de parser le hash #invite_token
+            window.netlifyIdentity.init();
+
+            // Forcer l'ouverture si un token est détecté (ceinture et bretelles)
+            // Le widget le fait souvent tout seul sur .init(), mais parfois non
+            if (window.location.hash.includes('_token=')) {
+               console.log("Token détecté dans l'URL, ouverture forcée du widget");
+               // Petit délai pour laisser le temps au widget de s'hydrater
+               setTimeout(() => {
+                 window.netlifyIdentity.open();
+               }, 500);
+            }
+          } else {
+            console.log("Netlify Identity pas encore chargé, nouvelle tentative dans 100ms");
+            setTimeout(initNetlifyIdentity, 100);
           }
-        });
-        
-        // Ouvrir le widget si un token d'invitation est présent
-        if (window.location.hash.includes('_token=')) {
-           window.netlifyIdentity.open();
         }
-      }
+
+        // Lancer la vérification au chargement
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initNetlifyIdentity);
+        } else {
+          initNetlifyIdentity();
+        }
+      })();
     </script>
   </body>
 </html>
