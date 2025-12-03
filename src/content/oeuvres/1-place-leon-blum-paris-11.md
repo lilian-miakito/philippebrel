@@ -1,5 +1,5 @@
 ---
-title: 1 place leon blum paris 11 - coucou
+title: 1 place leon blum paris 11 - couco
 image: /images/1-place-leon-blum-paris-11.jpg
 technique: Peinture à l'huile sur toile
 dimensions: 5 x 90 cm
