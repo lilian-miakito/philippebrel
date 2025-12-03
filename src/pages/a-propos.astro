@@ -1,0 +1,325 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout 
+  title="À Propos" 
+  description="Découvrez le parcours et la démarche artistique de Philippe Brel, peintre expressionniste abstrait."
+>
+  <Hero 
+    title="À Propos"
+    subtitle="Mon parcours artistique"
+    size="small"
+  />
+
+  <section class="section about-section">
+    <div class="container">
+      <div class="about-layout">
+        <!-- Photo de l'artiste -->
+        <div class="about-image">
+          <img 
+            src="/images/philippe-brel-portrait.jpg" 
+            alt="Philippe Brel dans son atelier"
+            class="about-photo"
+          />
+          <div class="about-image-caption">
+            <span>Dans mon atelier, France</span>
+          </div>
+        </div>
+
+        <!-- Texte -->
+        <div class="about-content">
+          <h2 class="about-title">Philippe Brel</h2>
+          <p class="about-subtitle">Peintre Expressionniste Abstrait</p>
+          
+          <div class="about-text">
+            <p>
+              Je suis Philippe Brel, artiste peintre basé en France. Mon travail explore 
+              l'intersection entre l'abstraction et le figuratif, où les paysages deviennent 
+              des émotions et les couleurs racontent des histoires.
+            </p>
+            
+            <p>
+              Mon approche artistique s'inscrit dans la tradition de l'expressionnisme 
+              abstrait, tout en restant accessible au grand public. Chaque toile est une 
+              invitation au voyage, une fenêtre ouverte sur un monde où la réalité se 
+              mêle à l'imaginaire.
+            </p>
+            
+            <p>
+              Je travaille principalement à l'huile sur toile, une technique qui me permet 
+              de créer des textures riches et des couleurs profondes. Mes sujets de 
+              prédilection sont les paysages – châteaux perchés, villages du Lauragais, 
+              côtes bretonnes – que je réinterprète à travers mon prisme personnel.
+            </p>
+          </div>
+
+          <div class="about-quote">
+            <blockquote>
+              "La peinture est pour moi un dialogue entre ce que je vois et ce que je ressens. 
+              Chaque coup de pinceau est une tentative de capturer l'essence d'un lieu, 
+              d'un moment, d'une lumière particulière."
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Démarche artistique -->
+  <section class="section section--alt">
+    <div class="container container--narrow">
+      <div class="demarche">
+        <h2 class="demarche-title">Ma Démarche</h2>
+        
+        <div class="demarche-grid">
+          <div class="demarche-item">
+            <div class="demarche-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                <path d="M2 12h20"/>
+              </svg>
+            </div>
+            <h3>Distribution mondiale</h3>
+            <p>
+              Mes œuvres voyagent à travers le monde. Livraison possible 
+              dans tous les pays sur demande.
+            </p>
+          </div>
+          
+          <div class="demarche-item">
+            <div class="demarche-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                <path d="M2 2l7.586 7.586"/>
+                <circle cx="11" cy="11" r="2"/>
+              </svg>
+            </div>
+            <h3>Technique traditionnelle</h3>
+            <p>
+              Peinture à l'huile sur toile, une technique intemporelle 
+              qui offre profondeur et durabilité.
+            </p>
+          </div>
+          
+          <div class="demarche-item">
+            <div class="demarche-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+              </svg>
+            </div>
+            <h3>Pièces uniques</h3>
+            <p>
+              Chaque œuvre est unique, signée et numérotée. 
+              Aucune reproduction, que des originaux.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="about-contact">
+        <h2>Me Contacter</h2>
+        <p>
+          Pour toute demande d'information, visite d'atelier ou commande personnalisée, 
+          n'hésitez pas à me contacter directement.
+        </p>
+        <div class="about-contact-info">
+          <a href="mailto:brelphilippe@gmail.com" class="about-contact-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            brelphilippe@gmail.com
+          </a>
+          <a href="tel:+33662459783" class="about-contact-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            +33 6 62 45 97 83
+          </a>
+        </div>
+        <a href="/contact" class="btn btn--primary">Formulaire de contact</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-section {
+    padding-top: var(--space-xl);
+  }
+  
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  
+  /* Image */
+  .about-image {
+    position: sticky;
+    top: calc(80px + var(--space-lg));
+  }
+  
+  .about-photo {
+    width: 100%;
+    height: auto;
+    box-shadow: var(--shadow-image);
+  }
+  
+  .about-image-caption {
+    margin-top: var(--space-md);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+  
+  /* Content */
+  .about-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .about-subtitle {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-accent);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .about-text p {
+    font-size: 1.0625rem;
+    line-height: 1.9;
+    color: var(--color-text);
+    margin-bottom: var(--space-md);
+  }
+  
+  .about-quote {
+    margin-top: var(--space-xl);
+    padding-left: var(--space-lg);
+    border-left: 3px solid var(--color-accent);
+  }
+  
+  .about-quote blockquote {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  
+  /* Démarche */
+  .demarche-title {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    position: relative;
+  }
+  
+  .demarche-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--color-accent);
+    margin: var(--space-md) auto 0;
+  }
+  
+  .demarche-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+  
+  .demarche-item {
+    text-align: center;
+  }
+  
+  .demarche-icon {
+    color: var(--color-accent);
+    margin-bottom: var(--space-md);
+  }
+  
+  .demarche-item h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .demarche-item p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+  
+  /* Contact */
+  .about-contact {
+    text-align: center;
+  }
+  
+  .about-contact h2 {
+    margin-bottom: var(--space-md);
+  }
+  
+  .about-contact > p {
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin: 0 auto var(--space-lg);
+  }
+  
+  .about-contact-info {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .about-contact-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color var(--transition-fast);
+  }
+  
+  .about-contact-link:hover {
+    color: var(--color-accent);
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .about-layout {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-image {
+      position: static;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .demarche-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+    
+    .about-contact-info {
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+  }
+</style>
+

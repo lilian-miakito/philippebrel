@@ -1,0 +1,181 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  image: string;
+  technique?: string;
+  dimensions?: string;
+  prix?: number;
+  disponible?: boolean;
+  index?: number;
+}
+
+const { 
+  title, 
+  slug, 
+  image, 
+  technique, 
+  dimensions, 
+  prix, 
+  disponible = true,
+  index = 0 
+} = Astro.props;
+
+const formattedPrix = prix ? new Intl.NumberFormat('fr-FR', { 
+  style: 'currency', 
+  currency: 'EUR',
+  minimumFractionDigits: 0 
+}).format(prix) : null;
+---
+
+<article class="oeuvre-card" style={`--animation-delay: ${index * 0.1}s`}>
+  <a href={`/oeuvres/${slug}`} class="oeuvre-card__link">
+    <div class="oeuvre-card__image-wrapper">
+      <img 
+        src={image} 
+        alt={title}
+        class="oeuvre-card__image"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="oeuvre-card__overlay">
+        <span class="oeuvre-card__view">Voir l'œuvre</span>
+      </div>
+      {!disponible && (
+        <span class="oeuvre-card__badge">Vendu</span>
+      )}
+    </div>
+    
+    <div class="oeuvre-card__content">
+      <h3 class="oeuvre-card__title">{title}</h3>
+      
+      {(technique || dimensions) && (
+        <p class="oeuvre-card__meta">
+          {technique}{technique && dimensions && ' · '}{dimensions}
+        </p>
+      )}
+      
+      {formattedPrix && disponible && (
+        <p class="oeuvre-card__prix">{formattedPrix}</p>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .oeuvre-card {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: var(--animation-delay);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .oeuvre-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .oeuvre-card__image-wrapper {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-bg-alt);
+  }
+  
+  .oeuvre-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+  
+  .oeuvre-card__link:hover .oeuvre-card__image {
+    transform: scale(1.05);
+  }
+  
+  .oeuvre-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+  
+  .oeuvre-card__link:hover .oeuvre-card__overlay {
+    opacity: 1;
+  }
+  
+  .oeuvre-card__view {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid white;
+    transform: translateY(10px);
+    transition: transform var(--transition-base);
+  }
+  
+  .oeuvre-card__link:hover .oeuvre-card__view {
+    transform: translateY(0);
+  }
+  
+  .oeuvre-card__badge {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background: var(--color-accent);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  .oeuvre-card__content {
+    padding: var(--space-md) 0;
+  }
+  
+  .oeuvre-card__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+    transition: color var(--transition-fast);
+  }
+  
+  .oeuvre-card__link:hover .oeuvre-card__title {
+    color: var(--color-accent);
+  }
+  
+  .oeuvre-card__meta {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .oeuvre-card__prix {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    margin: 0;
+  }
+</style>
+

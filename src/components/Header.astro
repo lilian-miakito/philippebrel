@@ -1,0 +1,331 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/', label: 'Accueil' },
+  { href: '/galerie', label: 'Galerie' },
+  { href: '/a-propos', label: 'À Propos' },
+  { href: '/contact', label: 'Contact' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="header">
+  <div class="header__container container">
+    <!-- Logo -->
+    <a href="/" class="header__logo">
+      <span class="header__logo-text">Atelier</span>
+      <span class="header__logo-name">Philippe Brel</span>
+    </a>
+    
+    <!-- Navigation Desktop -->
+    <nav class="header__nav" aria-label="Navigation principale">
+      <ul class="header__nav-list">
+        {navLinks.map(link => (
+          <li>
+            <a 
+              href={link.href} 
+              class:list={['header__nav-link', { 'is-active': isActive(link.href) }]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    
+    <!-- Social Links -->
+    <div class="header__social">
+      <a href="https://www.instagram.com/philippebrel/" target="_blank" rel="noopener" aria-label="Instagram" class="header__social-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="https://www.facebook.com/philippe.brel.9" target="_blank" rel="noopener" aria-label="Facebook" class="header__social-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+    </div>
+    
+    <!-- Mobile Menu Button -->
+    <button class="header__menu-btn" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="header__menu-icon"></span>
+    </button>
+  </div>
+  
+  <!-- Mobile Menu -->
+  <div class="header__mobile-menu">
+    <nav aria-label="Navigation mobile">
+      <ul class="header__mobile-nav">
+        {navLinks.map(link => (
+          <li>
+            <a 
+              href={link.href} 
+              class:list={['header__mobile-link', { 'is-active': isActive(link.href) }]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="header__mobile-social">
+      <a href="https://www.instagram.com/philippebrel/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/philippe.brel.9" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+  }
+  
+  .header.is-scrolled {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+  }
+  
+  /* Logo */
+  .header__logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1.1;
+  }
+  
+  .header__logo-text {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-text-muted);
+  }
+  
+  .header__logo-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+  
+  /* Navigation */
+  .header__nav-list {
+    display: flex;
+    gap: var(--space-xl);
+    list-style: none;
+  }
+  
+  .header__nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    position: relative;
+    padding: var(--space-sm) 0;
+    transition: color var(--transition-fast);
+  }
+  
+  .header__nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-accent);
+    transition: width var(--transition-base);
+  }
+  
+  .header__nav-link:hover,
+  .header__nav-link.is-active {
+    color: var(--color-text);
+  }
+  
+  .header__nav-link:hover::after,
+  .header__nav-link.is-active::after {
+    width: 100%;
+  }
+  
+  /* Social */
+  .header__social {
+    display: flex;
+    gap: var(--space-md);
+  }
+  
+  .header__social-link {
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+  
+  .header__social-link:hover {
+    color: var(--color-accent);
+  }
+  
+  /* Mobile Menu Button */
+  .header__menu-btn {
+    display: none;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .header__menu-icon,
+  .header__menu-icon::before,
+  .header__menu-icon::after {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    transition: all var(--transition-fast);
+    position: absolute;
+    left: 4px;
+  }
+  
+  .header__menu-icon {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .header__menu-icon::before {
+    content: '';
+    top: -7px;
+  }
+  
+  .header__menu-icon::after {
+    content: '';
+    bottom: -7px;
+  }
+  
+  .header__menu-btn[aria-expanded="true"] .header__menu-icon {
+    background: transparent;
+  }
+  
+  .header__menu-btn[aria-expanded="true"] .header__menu-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+  
+  .header__menu-btn[aria-expanded="true"] .header__menu-icon::after {
+    bottom: 0;
+    transform: rotate(-45deg);
+  }
+  
+  /* Mobile Menu */
+  .header__mobile-menu {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-bg);
+    padding: var(--space-xl) var(--space-lg);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+  }
+  
+  .header__mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .header__mobile-nav {
+    list-style: none;
+  }
+  
+  .header__mobile-link {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .header__mobile-link.is-active {
+    color: var(--color-accent);
+  }
+  
+  .header__mobile-social {
+    display: flex;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+  
+  .header__mobile-social a {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .header__nav,
+    .header__social {
+      display: none;
+    }
+    
+    .header__menu-btn,
+    .header__mobile-menu {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.querySelector('.header__menu-btn');
+  const mobileMenu = document.querySelector('.header__mobile-menu');
+  
+  menuBtn?.addEventListener('click', () => {
+    const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!isExpanded));
+    mobileMenu?.classList.toggle('is-open');
+    document.body.style.overflow = isExpanded ? '' : 'hidden';
+  });
+  
+  // Header scroll effect
+  const header = document.querySelector('.header');
+  
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('is-scrolled');
+    } else {
+      header?.classList.remove('is-scrolled');
+    }
+  });
+</script>
+

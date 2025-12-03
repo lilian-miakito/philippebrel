@@ -1,0 +1,225 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__container container">
+    <!-- Logo et description -->
+    <div class="footer__brand">
+      <a href="/" class="footer__logo">
+        <span class="footer__logo-text">Atelier</span>
+        <span class="footer__logo-name">Philippe Brel</span>
+      </a>
+      <p class="footer__tagline">
+        Peintre Expressionniste Abstrait<br>
+        Distribution mondiale
+      </p>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="footer__nav" aria-label="Navigation secondaire">
+      <h4 class="footer__nav-title">Navigation</h4>
+      <ul class="footer__nav-list">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+    
+    <!-- Contact -->
+    <div class="footer__contact">
+      <h4 class="footer__nav-title">Contact</h4>
+      <ul class="footer__contact-list">
+        <li>
+          <a href="mailto:brelphilippe@gmail.com">brelphilippe@gmail.com</a>
+        </li>
+        <li>
+          <a href="tel:+33662459783">+33 6 62 45 97 83</a>
+        </li>
+        <li class="footer__location">France</li>
+      </ul>
+    </div>
+    
+    <!-- Réseaux sociaux -->
+    <div class="footer__social">
+      <h4 class="footer__nav-title">Suivez-moi</h4>
+      <div class="footer__social-links">
+        <a href="https://www.instagram.com/philippebrel/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/philippe.brel.9" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+        <a href="https://philippebrel.tumblr.com/" target="_blank" rel="noopener" aria-label="Tumblr">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14.7 20a5 5 0 0 1-4.7-5V9H8V6a4 4 0 0 0 4-4h3v5h3v4h-3v5a1 1 0 0 0 1 1h2v3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom bar -->
+  <div class="footer__bottom">
+    <div class="container footer__bottom-container">
+      <p class="footer__copyright">
+        © {currentYear} Philippe Brel. Tous droits réservés.
+      </p>
+      <p class="footer__credits">
+        Livraison sur demande · Worldwide delivery
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-bg-dark);
+    color: var(--color-text-light);
+    margin-top: auto;
+  }
+  
+  .footer__container {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: var(--space-xl);
+    padding: var(--space-2xl) var(--space-lg);
+  }
+  
+  /* Logo */
+  .footer__logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1.1;
+    margin-bottom: var(--space-md);
+  }
+  
+  .footer__logo-text {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-accent-light);
+  }
+  
+  .footer__logo-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+  }
+  
+  .footer__tagline {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+  }
+  
+  /* Navigation */
+  .footer__nav-title {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent-light);
+    margin-bottom: var(--space-md);
+  }
+  
+  .footer__nav-list,
+  .footer__contact-list {
+    list-style: none;
+  }
+  
+  .footer__nav-list li,
+  .footer__contact-list li {
+    margin-bottom: var(--space-sm);
+  }
+  
+  .footer__nav-list a,
+  .footer__contact-list a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color var(--transition-fast);
+  }
+  
+  .footer__nav-list a:hover,
+  .footer__contact-list a:hover {
+    color: white;
+  }
+  
+  .footer__location {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9375rem;
+  }
+  
+  /* Social */
+  .footer__social-links {
+    display: flex;
+    gap: var(--space-md);
+  }
+  
+  .footer__social-links a {
+    color: rgba(255, 255, 255, 0.6);
+    transition: all var(--transition-fast);
+  }
+  
+  .footer__social-links a:hover {
+    color: var(--color-accent-light);
+    transform: translateY(-2px);
+  }
+  
+  /* Bottom */
+  .footer__bottom {
+    border-top: 1px solid var(--color-border-dark);
+    padding: var(--space-lg) 0;
+  }
+  
+  .footer__bottom-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer__copyright,
+  .footer__credits {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .footer__container {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .footer__container {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+    
+    .footer__bottom-container {
+      flex-direction: column;
+      gap: var(--space-sm);
+      text-align: center;
+    }
+  }
+</style>
+

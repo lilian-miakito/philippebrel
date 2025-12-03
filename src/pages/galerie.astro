@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import GalerieGrid from '../components/GalerieGrid.astro';
+import { getCollection } from 'astro:content';
+
+// Récupérer toutes les œuvres
+const allOeuvres = await getCollection('oeuvres');
+
+// Trier par ordre puis par date
+const oeuvresSorted = allOeuvres.sort((a, b) => {
+  // D'abord par ordre si défini
+  const ordreA = a.data.ordre ?? 999;
+  const ordreB = b.data.ordre ?? 999;
+  if (ordreA !== ordreB) return ordreA - ordreB;
+  
+  // Puis par date (plus récent d'abord)
+  const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return dateB - dateA;
+});
+
+// Séparer disponibles et vendues
+const oeuvresDisponibles = oeuvresSorted.filter(o => o.data.disponible !== false);
+const oeuvresVendues = oeuvresSorted.filter(o => o.data.disponible === false);
+---
+
+<BaseLayout 
+  title="Galerie" 
+  description="Découvrez l'ensemble des œuvres de Philippe Brel - Peintures expressionnistes abstraites."
+>
+  <Hero 
+    title="Galerie"
+    subtitle="Explorez mes créations"
+    size="small"
+  />
+
+  <section class="section galerie-section">
+    <div class="container">
+      <!-- Filtres (optionnel, pour plus tard) -->
+      <div class="galerie-header">
+        <p class="galerie-count">
+          {oeuvresDisponibles.length} œuvre{oeuvresDisponibles.length > 1 ? 's' : ''} disponible{oeuvresDisponibles.length > 1 ? 's' : ''}
+        </p>
+      </div>
+
+      <!-- Œuvres disponibles -->
+      {oeuvresDisponibles.length > 0 && (
+        <GalerieGrid oeuvres={oeuvresDisponibles} columns={3} />
+      )}
+
+      <!-- Œuvres vendues (si on veut les montrer) -->
+      {oeuvresVendues.length > 0 && (
+        <div class="galerie-vendues">
+          <h2 class="galerie-vendues__title">Œuvres précédentes (vendues)</h2>
+          <GalerieGrid oeuvres={oeuvresVendues} columns={3} />
+        </div>
+      )}
+
+      <!-- Message si pas d'œuvres -->
+      {allOeuvres.length === 0 && (
+        <div class="galerie-empty">
+          <p>La galerie est en cours de mise à jour.</p>
+          <p>Revenez bientôt pour découvrir mes nouvelles créations !</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Section Contact -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="galerie-contact">
+        <h2>Intéressé par une œuvre ?</h2>
+        <p>
+          Contactez-moi pour plus d'informations sur les prix, les dimensions 
+          ou pour organiser une visite de l'atelier.
+        </p>
+        <div class="galerie-contact__actions">
+          <a href="/contact" class="btn btn--primary">Me contacter</a>
+          <a href="mailto:brelphilippe@gmail.com" class="btn btn--outline">
+            brelphilippe@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .galerie-section {
+    padding-top: var(--space-xl);
+  }
+  
+  .galerie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .galerie-count {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  
+  .galerie-vendues {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .galerie-vendues__title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .galerie-empty {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--color-text-muted);
+  }
+  
+  .galerie-contact {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .galerie-contact h2 {
+    margin-bottom: var(--space-md);
+  }
+  
+  .galerie-contact p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .galerie-contact__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+  
+  @media (max-width: 600px) {
+    .galerie-contact__actions {
+      flex-direction: column;
+    }
+  }
+</style>
+

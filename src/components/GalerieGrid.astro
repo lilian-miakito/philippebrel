@@ -1,0 +1,77 @@
+---
+import OeuvreCard from './OeuvreCard.astro';
+
+interface Oeuvre {
+  slug: string;
+  data: {
+    title: string;
+    image: string;
+    technique?: string;
+    dimensions?: string;
+    prix?: number;
+    disponible?: boolean;
+  };
+}
+
+interface Props {
+  oeuvres: Oeuvre[];
+  columns?: 2 | 3 | 4;
+}
+
+const { oeuvres, columns = 3 } = Astro.props;
+---
+
+<div class="galerie-grid" data-columns={columns}>
+  {oeuvres.map((oeuvre, index) => (
+    <OeuvreCard
+      title={oeuvre.data.title}
+      slug={oeuvre.slug}
+      image={oeuvre.data.image}
+      technique={oeuvre.data.technique}
+      dimensions={oeuvre.data.dimensions}
+      prix={oeuvre.data.prix}
+      disponible={oeuvre.data.disponible}
+      index={index}
+    />
+  ))}
+</div>
+
+<style>
+  .galerie-grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+  
+  .galerie-grid[data-columns="2"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .galerie-grid[data-columns="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .galerie-grid[data-columns="4"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  @media (max-width: 1200px) {
+    .galerie-grid[data-columns="4"] {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .galerie-grid[data-columns="3"],
+    .galerie-grid[data-columns="4"] {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .galerie-grid {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-lg);
+    }
+  }
+</style>
+

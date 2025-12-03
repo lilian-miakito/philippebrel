@@ -1,0 +1,229 @@
+# ===========================================
+# Configuration Decap CMS pour Atelier Philippe Brel
+# ===========================================
+
+site_url: https://philippebrel.fr
+logo_url: /images/logo-admin.png
+
+# Backend configuration
+# Pour le développement local, utiliser 'test-repo' (pas besoin d'auth)
+# Pour la production avec Netlify, utiliser 'git-gateway'
+backend:
+  name: git-gateway
+  branch: main
+
+# Pour le développement local sans authentification
+local_backend: true
+
+# Chemin des médias
+media_folder: "public/images"
+public_folder: "/images"
+
+# Interface en français
+locale: "fr"
+
+# Logo personnalisé (optionnel)
+# logo_url: "/images/logo-admin.png"
+
+# Configuration de l'éditeur
+editor:
+  preview: false
+
+# ===========================================
+# Collections
+# ===========================================
+collections:
+
+  # -----------------------------------------
+  # Collection: Œuvres
+  # -----------------------------------------
+  - name: "oeuvres"
+    label: "🎨 Œuvres"
+    label_singular: "Œuvre"
+    folder: "src/content/oeuvres"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["title", "date", "prix", "ordre"]
+    view_filters:
+      - label: "Disponibles"
+        field: disponible
+        pattern: true
+      - label: "Vendues"
+        field: disponible
+        pattern: false
+      - label: "Mises en avant"
+        field: featured
+        pattern: true
+    view_groups:
+      - label: "Année"
+        field: date
+        pattern: \d{4}
+    summary: "{{title}} - {{technique}} ({{dimensions}})"
+    fields:
+      - label: "Titre"
+        name: "title"
+        widget: "string"
+        hint: "Le nom de l'œuvre"
+        
+      - label: "Image principale"
+        name: "image"
+        widget: "image"
+        hint: "Photo principale de l'œuvre (format paysage recommandé)"
+        
+      - label: "Images supplémentaires"
+        name: "images"
+        widget: "list"
+        required: false
+        field:
+          label: "Image"
+          name: "url"
+          widget: "image"
+        hint: "Photos additionnelles (détails, angles différents...)"
+        
+      - label: "Technique"
+        name: "technique"
+        widget: "string"
+        default: "Peinture à l'huile sur toile"
+        hint: "Ex: Peinture à l'huile sur toile, Acrylique..."
+        
+      - label: "Dimensions"
+        name: "dimensions"
+        widget: "string"
+        hint: "Ex: 100 x 80 cm"
+        
+      - label: "Date de création"
+        name: "date"
+        widget: "datetime"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+        format: "YYYY-MM-DD"
+        hint: "Date de création de l'œuvre"
+        
+      - label: "Prix (€)"
+        name: "prix"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        required: false
+        hint: "Prix en euros (sans le symbole €)"
+        
+      - label: "Disponible"
+        name: "disponible"
+        widget: "boolean"
+        default: true
+        hint: "Décocher si l'œuvre est vendue"
+        
+      - label: "Mettre en avant"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Afficher sur la page d'accueil"
+        
+      - label: "Lieu représenté"
+        name: "lieu"
+        widget: "string"
+        required: false
+        hint: "Ex: Lastours, Aude"
+        
+      - label: "Description courte"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "Description brève de l'œuvre"
+        
+      - label: "Ordre d'affichage"
+        name: "ordre"
+        widget: "number"
+        required: false
+        hint: "Plus petit = affiché en premier"
+        
+      - label: "Contenu"
+        name: "body"
+        widget: "markdown"
+        required: false
+        hint: "Description détaillée (optionnel)"
+
+  # -----------------------------------------
+  # Collection: Pages
+  # -----------------------------------------
+  - name: "pages"
+    label: "📄 Pages"
+    files:
+      - name: "a-propos"
+        label: "À Propos"
+        file: "src/content/pages/a-propos.md"
+        fields:
+          - label: "Titre"
+            name: "title"
+            widget: "string"
+          - label: "Photo de profil"
+            name: "photo"
+            widget: "image"
+            required: false
+          - label: "Biographie"
+            name: "bio"
+            widget: "markdown"
+          - label: "Citation"
+            name: "quote"
+            widget: "text"
+            required: false
+
+  # -----------------------------------------
+  # Collection: Paramètres
+  # -----------------------------------------
+  - name: "settings"
+    label: "⚙️ Paramètres"
+    files:
+      - name: "general"
+        label: "Paramètres généraux"
+        file: "src/content/settings/general.json"
+        fields:
+          - label: "Nom du site"
+            name: "siteName"
+            widget: "string"
+            default: "Atelier Philippe Brel"
+            
+          - label: "Slogan"
+            name: "tagline"
+            widget: "string"
+            default: "Peintre Expressionniste Abstrait"
+            
+          - label: "Email"
+            name: "email"
+            widget: "string"
+            default: "brelphilippe@gmail.com"
+            
+          - label: "Téléphone"
+            name: "phone"
+            widget: "string"
+            default: "+33 6 62 45 97 83"
+            
+          - label: "Adresse"
+            name: "address"
+            widget: "string"
+            required: false
+            default: "France"
+            
+          - label: "Réseaux sociaux"
+            name: "socialLinks"
+            widget: "object"
+            fields:
+              - label: "Instagram"
+                name: "instagram"
+                widget: "string"
+                required: false
+                default: "https://www.instagram.com/philippebrel/"
+              - label: "Facebook"
+                name: "facebook"
+                widget: "string"
+                required: false
+                default: "https://www.facebook.com/philippe.brel.9"
+              - label: "Tumblr"
+                name: "tumblr"
+                widget: "string"
+                required: false
+                default: "https://philippebrel.tumblr.com/"
+
